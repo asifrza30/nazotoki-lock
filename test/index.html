@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lock validation tests</title>
+<style>
+  body { margin: 0; padding: 24px; background: #14100b; color: #ddd; font: 13px/1.5 ui-monospace, Menlo, Consolas, monospace; }
+  h1 { margin: 0 0 4px; font-size: 15px; color: #fff; }
+  #summary { margin-bottom: 16px; font-size: 14px; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: 5px 10px; text-align: left; border-bottom: 1px solid #2c2418; vertical-align: top; }
+  th { color: #9c8b6e; }
+  .pass { color: #7ddc8e; }
+  .fail { color: #ff6b6b; font-weight: 700; }
+  .muted { color: #7d7364; }
+  td.detail { max-width: 460px; word-break: break-all; }
+</style>
+</head>
+<body>
+<h1>/lock answer validation</h1>
+<div id="summary" class="muted">running…</div>
+<table><thead><tr><th>#</th><th>case</th><th>expected</th><th>actual</th><th>normalised</th></tr></thead>
+<tbody id="rows"></tbody></table>
+
+<script src="../assets/js/lock.js"></script>
+<script>
+(function () {
+  var OK = ["えくれあ", "えんとつ", "かんこう", "くいーん", "くりっぷ", "すいっち", "たいかい", "にわとり", "はくしゅ", "はちうえ"];
+
+  function withField(index, value) {
+    var copy = OK.slice();
+    copy[index] = value;
+    return copy;
+  }
+
+  var swapped = OK.slice();
+  swapped[2] = OK[3];
+  swapped[3] = OK[2];
+
+  var CASES = [
+    ["all ten correct", OK, true],
+    ["one wrong", withField(0, "えくれあお"), false],
+    ["three wrong", OK.map(function (v, i) { return i < 3 ? "あいうえ" : v; }), false],
+    ["two answers swapped", swapped, false],
+    ["reverse order", OK.slice().reverse(), false],
+    ["all empty", OK.map(function () { return ""; }), false],
+    ["one empty", withField(6, ""), false],
+    ["leading half-width space", withField(0, " えくれあ"), true],
+    ["trailing full-width space U+3000", withField(1, "えんとつ　"), true],
+    ["internal space", withField(3, "く いーん"), true],
+    ["field 4 hyphen-minus U+002D", withField(3, "くい-ん"), true],
+    ["field 4 half-width kana mark U+FF70", withField(3, "くいｰん"), true],
+    ["field 4 fullwidth hyphen U+FF0D", withField(3, "くい－ん"), true],
+    ["field 4 em dash U+2014", withField(3, "くい—ん"), true],
+    ["field 4 kanji ichi", withField(3, "くい一ん"), true],
+    ["field 4 full katakana (rejected)", withField(3, "クイーン"), false],
+    ["field 4 half-width katakana (rejected)", withField(3, "ｸｲｰﾝ"), false],
+    ["every field in katakana (rejected)", OK.map(function (a) {
+      return a.replace(/[ぁ-ゖ]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) + 0x60); });
+    }), false],
+    ["trailing newline (pasted)", withField(9, "はちうえ\n"), true],
+    ["tabs around value", withField(5, "\tすいっち\t"), true],
+    ["zero-width space inside", withField(8, "はく​しゅ"), true],
+    ["five characters", withField(0, "えくれああ"), false],
+    ["latin input", withField(0, "ekurea"), false],
+    ["numeric input", withField(0, "1234"), false],
+    ["kanji homophone", withField(2, "観光"), false],
+    ["one character short", withField(4, "くりっ"), false]
+  ];
+
+  var rows = document.getElementById("rows");
+  var passed = 0;
+
+  function render(i, name, expected, actual, detail) {
+    var ok = expected === actual;
+    if (ok) passed++;
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      "<td>" + (i + 1) + "</td><td>" + name + "</td>" +
+      "<td>" + (expected ? "clear" : "incorrect") + "</td>" +
+      '<td class="' + (ok ? "pass" : "fail") + '">' + (actual ? "clear" : "incorrect") + (ok ? " ok" : " FAILED") + "</td>" +
+      '<td class="detail muted">' + detail + "</td>";
+    rows.appendChild(tr);
+  }
+
+  var chain = Promise.resolve();
+  CASES.forEach(function (c, i) {
+    chain = chain.then(function () {
+      var normalized = c[1].map(window.LOCK.normalize);
+      return window.LOCK.check(normalized).then(function (actual) {
+        render(i, c[0], c[2], actual, normalized.join(" / "));
+      });
+    });
+  });
+
+  chain.then(function () {
+    var el = document.getElementById("summary");
+    el.textContent = passed + " / " + CASES.length + " passed";
+    el.className = passed === CASES.length ? "pass" : "fail";
+    window.__testResult = { passed: passed, total: CASES.length };
+  });
+})();
+</script>
+</body>
+</html>

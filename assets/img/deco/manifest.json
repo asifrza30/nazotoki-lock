@@ -1,0 +1,132 @@
+[
+  {
+    "name": "lamp-left",
+    "side": "left",
+    "leftPct": 6.934,
+    "rightPct": 81.799,
+    "topPct": 0.0,
+    "widthPct": 11.267,
+    "heightPct": 13.206,
+    "px": [
+      244,
+      402
+    ]
+  },
+  {
+    "name": "lamp-right",
+    "side": "right",
+    "leftPct": 81.817,
+    "rightPct": 6.916,
+    "topPct": 0.0,
+    "widthPct": 11.267,
+    "heightPct": 13.206,
+    "px": [
+      244,
+      402
+    ]
+  },
+  {
+    "name": "key",
+    "side": "right",
+    "leftPct": 87.694,
+    "rightPct": 6.325,
+    "topPct": 16.967,
+    "widthPct": 5.981,
+    "heightPct": 6.869,
+    "px": [
+      130,
+      208
+    ]
+  },
+  {
+    "name": "scissors",
+    "side": "left",
+    "leftPct": 6.878,
+    "rightPct": 85.545,
+    "topPct": 31.079,
+    "widthPct": 7.577,
+    "heightPct": 11.148,
+    "px": [
+      164,
+      337
+    ]
+  },
+  {
+    "name": "seal",
+    "side": "right",
+    "leftPct": 81.718,
+    "rightPct": 7.046,
+    "topPct": 44.874,
+    "widthPct": 11.237,
+    "heightPct": 7.046,
+    "px": [
+      243,
+      216
+    ]
+  },
+  {
+    "name": "quill",
+    "side": "left",
+    "leftPct": 18.876,
+    "rightPct": 69.567,
+    "topPct": 49.116,
+    "widthPct": 11.557,
+    "heightPct": 9.324,
+    "px": [
+      250,
+      285
+    ]
+  },
+  {
+    "name": "suitcase",
+    "side": "right",
+    "leftPct": 72.359,
+    "rightPct": 4.535,
+    "topPct": 66.681,
+    "widthPct": 23.105,
+    "heightPct": 10.202,
+    "px": [
+      500,
+      314
+    ]
+  },
+  {
+    "name": "hand",
+    "side": "left",
+    "leftPct": 5.931,
+    "rightPct": 82.125,
+    "topPct": 66.787,
+    "widthPct": 11.944,
+    "heightPct": 7.059,
+    "px": [
+      258,
+      217
+    ]
+  },
+  {
+    "name": "camera",
+    "side": "left",
+    "leftPct": 14.349,
+    "rightPct": 71.067,
+    "topPct": 83.091,
+    "widthPct": 14.584,
+    "heightPct": 8.724,
+    "px": [
+      316,
+      268
+    ]
+  },
+  {
+    "name": "teacup",
+    "side": "right",
+    "leftPct": 82.445,
+    "rightPct": 5.74,
+    "topPct": 88.288,
+    "widthPct": 11.815,
+    "heightPct": 6.997,
+    "px": [
+      256,
+      215
+    ]
+  }
+]

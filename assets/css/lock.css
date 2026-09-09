@@ -1,0 +1,415 @@
+.lock {
+  --ink: #735631;
+  --frame: #77552A;
+  --col-width: min(76%, 331px);
+  --col-height: max(44px, min(15.88cqw, 69px));
+
+  position: relative;
+  min-height: 100vh;
+  padding: 0;
+  scroll-behavior: smooth;
+  background: #c2a884;
+  font-family: 游明朝, "Yu Mincho", YuMincho, "Hiragino Mincho ProN", "Hiragino Mincho Pro", HGS明朝E, serif;
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: 0;
+  font-feature-settings: "palt" 1;
+  -webkit-text-size-adjust: 100%;
+}
+
+.lock *,
+.lock *::before,
+.lock *::after {
+  box-sizing: border-box;
+}
+
+/* Pinned so the paper stays put and only the content scrolls. A fixed layer rather
+   than background-attachment, which iOS Safari ignores. */
+.lock-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: #c2a884 url(../img/bg-landscape-1920.webp) center / cover no-repeat;
+  pointer-events: none;
+}
+
+/* The sheet is its own query container, so its own padding cannot use cqw.
+   Page margins live on the first and last children instead. */
+.lock-sheet {
+  container-type: inline-size;
+  position: relative;
+  z-index: 1;
+  width: min(100%, 720px);
+  margin: 0 auto;
+}
+
+.lock-sheet > .lock-titlebar {
+  margin-top: 5.92cqw;
+}
+
+.lock-sheet > *:not(.lock-deco) {
+  position: relative;
+  z-index: 1;
+}
+
+.lock-titlebar {
+  position: relative;
+  width: 50.397%;
+  margin: 0 auto;
+  aspect-ratio: 299.97 / 56.27;
+}
+
+.lock-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.lock-title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding-bottom: 0.06em;
+  font-size: 4.86cqw;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.lock-lead {
+  margin: 6.46cqw 0 0;
+  font-size: 3.91cqw;
+  line-height: 1.634;
+}
+
+.lock-sub {
+  margin: 1.81cqw 0 0;
+  font-size: 3.21cqw;
+  line-height: 1.55;
+}
+
+.lock-form {
+  margin: 4.12cqw 0 5cqw;
+}
+
+.lock-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.18cqw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lock-field {
+  width: var(--col-width);
+  margin-inline: auto;
+  text-align: start;
+}
+
+.lock-label {
+  display: block;
+  margin-bottom: 0.25em;
+  font-size: max(12px, 2.18cqw);
+  line-height: 1.2;
+}
+
+.lock-input {
+  display: block;
+  width: 100%;
+  height: var(--col-height);
+  padding: 0 0.6em;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: max(16px, 3.21cqw);
+  line-height: 1;
+  text-align: center;
+  letter-spacing: 0.1em;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.lock-input:focus {
+  outline: none;
+  border-color: var(--frame);
+  box-shadow: 0 0 0 2px rgba(119, 85, 42, 0.35);
+}
+
+.lock-input.is-flagged {
+  animation: lock-shake 0.4s ease;
+}
+
+.lock-submit {
+  display: block;
+  width: var(--col-width);
+  height: var(--col-height);
+  margin: 3.7cqw auto 0;
+  border: 1px solid #fff;
+  border-radius: 0;
+  background: var(--ink);
+  color: #fff;
+  font: inherit;
+  font-size: 3.91cqw;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.lock-submit:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .lock-submit:not(:disabled):hover {
+    transform: scale(1.05);
+  }
+}
+
+.lock-submit:focus-visible {
+  outline: 2px solid var(--frame);
+  outline-offset: 3px;
+}
+
+.lock-deco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.lock-deco-item {
+  position: absolute;
+  height: auto;
+}
+
+.is-lamp-left   { top: 0;      left: 6.938%;  width: 11.27%; }
+.is-lamp-right  { top: 0;      right: 6.917%; width: 11.27%; }
+.is-key         { top: 16.97%; right: 6.331%; width: 5.98%; }
+.is-scissors    { top: 31.08%; left: 6.871%;  width: 7.58%; }
+.is-seal        { top: 44.87%; right: 7.052%; width: 11.24%; }
+.is-quill       { top: 49.12%; left: 12.8%;   width: 11.56%; }
+.is-suitcase    { top: 66.68%; right: 1.8%;   width: 23.11%; }
+.is-hand        { top: 66.79%; left: 5.931%;  width: 11.94%; }
+.is-camera      { top: 83.09%; left: 9.2%;    width: 14.58%; }
+.is-teacup      { top: 88.29%; right: 5.741%; width: 11.81%; }
+
+/* Clear screen */
+
+.lock-clear-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 63.265%;
+  margin: 12.56cqw auto 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #fff;
+}
+
+.lock-clear-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.lock-clear-placeholder {
+  margin: 0;
+  font-size: 5.6cqw;
+  line-height: 1.55;
+}
+
+.lock-clear-body {
+  margin: 8.48cqw 0 11.56cqw;
+}
+
+.lock-clear-line {
+  margin: 0;
+  font-size: 3.73cqw;
+  line-height: 1.634;
+}
+
+.lock-clear-mark {
+  width: 0;
+  height: 0;
+  margin: 2.7cqw auto 0.6cqw;
+  border-left: 1.8cqw solid transparent;
+  border-right: 1.8cqw solid transparent;
+  border-top: 2.2cqw solid var(--ink);
+}
+
+/* Incorrect dialog */
+
+.lock-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.lock-modal[hidden] {
+  display: none;
+}
+
+.lock-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 18, 8, 0.62);
+  animation: lock-fade 0.3s ease;
+}
+
+.lock-modal-panel {
+  container-type: inline-size;
+  position: relative;
+  width: min(92vw, 560px);
+  max-height: 92vh;
+  overflow-y: auto;
+  background: #c2a884 url(../img/bg-portrait-1000.webp) center / 100% 100% no-repeat;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  animation: lock-pop 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.lock-modal-panel .lock-titlebar {
+  width: 82%;
+  margin-top: 7cqw;
+}
+
+.lock-modal-panel .lock-title {
+  font-size: 7.35cqw;
+}
+
+.lock-modal-line {
+  width: 89%;
+  margin: 5.5cqw auto 0;
+  font-size: 4.23cqw;
+  line-height: 1.6;
+}
+
+.lock-modal-line:first-of-type {
+  margin-top: 7.5cqw;
+}
+
+.lock-modal-close {
+  width: 58%;
+  height: max(46px, 9cqw);
+  margin: 8.5cqw auto 7.5cqw;
+  font-size: 4.5cqw;
+}
+
+/* Reveal on scroll into view, matching the site's su_animate timing:
+   fadeInDown on titles, fadeInUp on content, 2s ease, 0.1s delay. */
+
+.lock-motion .lock-reveal {
+  opacity: 0;
+}
+
+.lock-motion .lock-reveal.is-in {
+  animation: lock-fade-up 2s ease 0.1s both;
+}
+
+.lock-motion .lock-titlebar.is-in {
+  animation-name: lock-fade-down;
+}
+
+@keyframes lock-fade-up {
+  from { opacity: 0; transform: translate3d(0, 60px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes lock-fade-down {
+  from { opacity: 0; transform: translate3d(0, -60px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes lock-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes lock-pop {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes lock-shake {
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lock *,
+  .lock *::before,
+  .lock *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media screen and (max-width: 834px) {
+  .lock-bg {
+    background-image: url(../img/bg-portrait-1000.webp);
+  }
+}
+
+/* The answer column keeps its width as the sheet narrows, so the margins that hold
+   the illustrations run out first. Below this they bleed off both edges instead. */
+@media screen and (max-width: 660px) {
+  .lock-deco-item {
+    opacity: 0.72;
+  }
+
+  .is-quill,
+  .is-camera,
+  .is-key {
+    display: none;
+  }
+
+  .is-lamp-left  { top: -1%;    left: -6%;   width: 22%; }
+  .is-lamp-right { top: -1%;    right: -6%;  width: 22%; }
+  .is-scissors   { top: 27%;    left: -5%;   width: 13%; }
+  .is-seal       { top: 41%;    right: -6%;  width: 18%; }
+  .is-hand       { top: 62%;    left: -7%;   width: 18%; }
+  .is-suitcase   { top: 70%;    right: -10%; width: 30%; }
+  .is-teacup     { top: 88.29%; right: -4%;  width: 18%; }
+}
+
+/* Below this the artboard's own type scale drops under a comfortable reading size. */
+@media screen and (max-width: 480px) {
+  .lock-bg {
+    background-image: url(../img/bg-portrait-700.webp);
+  }
+
+  .lock-fields {
+    gap: 2.2cqw;
+  }
+
+  .lock-titlebar {
+    width: 76%;
+  }
+
+  .lock-title       { font-size: 7.2cqw; }
+  .lock-lead        { font-size: 5.5cqw; }
+  .lock-sub         { font-size: 4.5cqw; }
+  .lock-submit      { font-size: 5.5cqw; }
+  .lock-clear-line  { font-size: 4.3cqw; }
+
+  .lock-clear-image {
+    width: 82%;
+  }
+
+  .lock-clear-placeholder {
+    font-size: 6.8cqw;
+  }
+}
